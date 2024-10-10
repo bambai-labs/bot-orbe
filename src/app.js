@@ -49,6 +49,7 @@ const main = async () => {
           const mime =
             payload?.message?.imageMessage?.mimetype ??
             payload?.message?.videoMessage?.mimetype ??
+            payload?.message?.audioMessage?.mimetype ??
             payload?.message?.documentMessage?.mimetype;
           const extension = mimeType.extension(mime);
           const buffer = await downloadMediaMessage(payload, "buffer");
