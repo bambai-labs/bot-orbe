@@ -102,7 +102,11 @@ export const setupRoutes = (provider, handleCtx) => {
 
           if (file) {
             console.log(`Este es el archivo adjunto...`, file.data_url);
-            await bot.sendMessage(number, message, { media });
+            if (media && media.includes(".oga")) {
+              await bot.sendAudio(number, media);
+            } else {
+              await bot.sendMessage(number, message, { media });
+            }
             res.end("ok");
             return;
           }

@@ -7,7 +7,7 @@ import {
   createMessageImage,
 } from "../services/assistant/index.js";
 import { typing, obtenerFechaHoraActual, recording } from "../utils/index.js";
-import { audioElevenlabs } from "../services/tts/index.js";
+import { audioOpenai } from "../services/tts/index.js";
 
 const flowAssistant = addKeyword("ASSISTANT").addAction(
   async (ctx, { flowDynamic, provider, state }) => {
@@ -87,7 +87,7 @@ const flowAssistant = addKeyword("ASSISTANT").addAction(
       }
 
       // Genera el audio a partir del texto limpio (sin imágenes)
-      const nameFile = await audioElevenlabs(cleanText.trim());
+      const nameFile = await audioOpenai(cleanText.trim());
       // Envía el archivo de audio
       return await provider.sendAudio(ctx.key.remoteJid, 'src/audio/' + nameFile);
 
