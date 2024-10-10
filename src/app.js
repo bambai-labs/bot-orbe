@@ -28,6 +28,10 @@ const main = async () => {
       globalState: {
         users: [],
       },
+      queue: {
+        timeout: 20000,
+        concurrencyLimit: 50,
+      }
     }
   );
 

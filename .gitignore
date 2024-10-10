@@ -14,3 +14,6 @@ src/assets/*
 
 src/audio/*
 !src/audio/.gitkeep
+
+public/*
+!public/.gitkeep

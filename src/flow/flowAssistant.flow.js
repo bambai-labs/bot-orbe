@@ -12,7 +12,7 @@ import { audioElevenlabs } from "../services/tts/index.js";
 const flowAssistant = addKeyword("ASSISTANT").addAction(
   async (ctx, { flowDynamic, provider, state }) => {
     const number = ctx.from;
-    const message = ctx.body;
+    const message = ctx.message;
     const imagePath = ctx.imagePath;
     const audioPath = ctx.audioPath;
     const myState = state.getMyState();
