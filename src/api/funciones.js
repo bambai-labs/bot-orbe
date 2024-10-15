@@ -245,6 +245,26 @@ const crear_huecos = async () => {
   }
 };
 
+const actualizar_uso = async (data) => {
+  try {
+    const response = await axios.put(`${URL_API}/actualizar_uso`, data, {
+      headers: {
+        Cookie: `token=${COOKIE_ADMIN_JWT}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    if (error.response) {
+      return error.response.data;
+    } else {
+      return {
+        success: false,
+        message: error.message,
+      };
+    }
+  }
+};
+
 export {
   obtener_usuario,
   crear_usuario,
@@ -256,4 +276,5 @@ export {
   reservar,
   ordenar,
   crear_huecos,
+  actualizar_uso,
 };

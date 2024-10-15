@@ -47,79 +47,16 @@ export const setupRoutes = (provider, handleCtx) => {
     })
   );
 
-  //chatwood hooks
-  provider.server.post(
-    "/v1/chatwood",
+  //botstatus
+  provider.server.get(
+    "/v1/status",
     handleCtx(async (bot, req, res) => {
-      const body = req.body;
-      const attachments = body?.attachments;
-      try {
-        const mapperAttributes = body?.changed_attributes
-          ?.map((a) => Object.keys(a))
-          .flat(2);
-
-        /**
-         * Esta funcion se encarga de agregar o remover el numero a la blacklist
-         * eso quiere decir que podemos hacer que el chatbot responda o no
-         * para que nos sirve, para evitar que el chatbot responda mientras
-         * un agente humano esta escribiendo desde chatwoot
-         */
-        if (
-          body?.event === "conversation_updated" &&
-          mapperAttributes.includes("assignee_id")
-        ) {
-          const number = body?.meta?.sender?.phone_number.replace("+", "");
-          const idAssigned =
-            body?.changed_attributes[0]?.assignee_id?.current_value ?? null;
-
-          if (idAssigned) {
-            bot.blacklist.add(number);
-          } else {
-            bot.blacklist.remove(number);
-          }
-          res.end("ok");
-          return;
-        }
-
-        /**
-         * La parte que se encarga de determinar si un mensaje es enviado al whatsapp del cliente
-         */
-        const checkIfMessage =
-          body?.private == false &&
-          body?.event == "message_created" &&
-          body?.message_type === "outgoing" &&
-          body?.conversation?.channel.includes("Channel::Api");
-
-        if (checkIfMessage) {
-          const number = body.conversation?.meta?.sender?.phone_number.replace(
-            "+",
-            ""
-          );
-          const message = body?.content ?? "";
-
-          const file = attachments?.length ? attachments[0] : null;
-          const media = file?.data_url ?? null;
-
-          if (file) {
-            console.log(`Este es el archivo adjunto...`, file.data_url);
-            await bot.sendMessage(number, message, { media });
-            res.end("ok");
-            return;
-          }
-
-          /**
-           * esto envia un mensaje de texto al ws
-           */
-          await bot.sendMessage(number, message, {});
-
-          res.end("ok");
-          return;
-        }
-
-        res.end("ok");
-      } catch (error) {
-        console.log(error);
-        return res.end("Error");
+      if (bot.provider.store.state.connection == "open") {
+        console.log("conectado");
+        return res.end(bot.provider.vendor.user.id);
+      } else {
+        console.log("desconectado");
+        return res.end("DECONECTADO");
       }
     })
   );

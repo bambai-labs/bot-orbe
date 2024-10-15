@@ -10,6 +10,7 @@ import {
   reservar,
   ordenar,
   actualizar_hilo,
+  actualizar_uso,
 } from "../../api/funciones.js";
 
 global.obtener_servicios = obtener_servicios;
@@ -150,6 +151,13 @@ const checkRun = async (theread_id, run_id, number) => {
       console.log(runStatus);
       console.log("El run ha fallado ❌");
       break;
+    }
+  }
+
+  if (runStatus.status === "completed") {
+    const response = await actualizar_uso({ token: runStatus.usage.total_tokens });
+    if (!response.success) {
+      console.log("Error al actualizar el uso");
     }
   }
 
