@@ -5,6 +5,8 @@ import { flow } from "./flow/index.js";
 import { PORT } from "./config/variables.js";
 import { setupRoutes } from "./messageRoutes.js";
 
+import { actualizar_estado } from "./api/funciones.js";
+
 /**
   Limites de uso de la api se asistentes
   - 200,000 Tokens por minutos
@@ -35,6 +37,18 @@ const main = async () => {
   httpServer(+PORT);
 
   setupRoutes(provider, handleCtx);
+
+  provider.on("ready", () => {
+    actualizar_estado({ botStatus: "ready" });
+  });
+
+  provider.on('require_action', async () => {
+    actualizar_estado({ botStatus: "require_action" });
+  })
+
+  provider.on('auth_failure', async () => {
+    actualizar_estado({ botStatus: "auth_failure" });
+  })
 };
 
 main();
