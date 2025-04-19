@@ -1,0 +1,35 @@
+{
+  "name": "base-bailey-json",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/app.js",
+  "type": "module",
+  "scripts": {
+    "lint": "eslint . --no-ignore",
+    "dev": "npm run lint && nodemon ./src/app.js",
+    "start": "node ./src/app.js"
+  },
+  "keywords": [],
+  "dependencies": {
+    "@builderbot/bot": "1.1.6",
+    "@builderbot/database-mongo": "1.1.6",
+    "@builderbot/provider-baileys": "1.1.6",
+    "axios": "^1.7.7",
+    "base-bailey-json": "file:",
+    "dotenv": "^16.4.5",
+    "elevenlabs": "^0.16.1",
+    "ffmpeg-static": "^5.2.0",
+    "fluent-ffmpeg": "^2.1.3",
+    "mime-types": "^2.1.35",
+    "openai": "^4.51.0",
+    "queue-promise": "^2.2.1",
+    "sharp": "^0.32.6"
+  },
+  "devDependencies": {
+    "eslint": "^8.57.0",
+    "eslint-plugin-builderbot": "latest",
+    "nodemon": "^3.1.0"
+  },
+  "author": "",
+  "license": "ISC"
+}
